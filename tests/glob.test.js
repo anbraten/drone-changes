@@ -1,14 +1,14 @@
 const { removeDuplicates, matchesFiles, ingoreFiles, hasMatches  } = require('../src/glob.js');
 
-describe("Glob", () => {
-  test("it should remove duplicates string from an array", async () => {
+describe('Glob', () => {
+  test('it should remove duplicates string from an array', async () => {
     const arrayWithDuplicates = ['horse', 'dog', 'cat', 'Cat', 'dog'];
     const arrayWithoutDuplicates = ['horse', 'cat', 'Cat', 'dog'];
 
     expect(removeDuplicates(arrayWithDuplicates).sort()).toEqual(arrayWithoutDuplicates.sort());
   });
 
-  test("it should remove duplicates string from an array", async () => {
+  test('it should remove duplicates string from an array', async () => {
     const files = ['test/test.md', 'test/zug/README.md', 'README.md', 'animal/Cat.png', 'animal/dog.png'];
 
     const withMarkdown = ['test/test.md', 'test/zug/README.md', 'README.md'];
@@ -27,7 +27,7 @@ describe("Glob", () => {
     expect(matchesFiles(files, ['animal/*']).sort()).toEqual(withAnimals.sort());
   });
 
-  test("it should test if function removes ingnored files", async () => {
+  test('it should test if function removes ingnored files', async () => {
     const files = ['test/test.md', 'test/zug/README.md', 'README.md', 'animal/Cat.png', 'animal/dog.png'];
 
     const withoutMarkdown = ['animal/Cat.png', 'animal/dog.png'];
@@ -46,7 +46,7 @@ describe("Glob", () => {
     expect(ingoreFiles(files, ['animal/*']).sort()).toEqual(withoutAnimals.sort());
   });
 
-  test("it should check if array has matches or not", async () => {
+  test('it should check if array has matches or not', async () => {
     expect(hasMatches(['horse', 'dog'])).toEqual(true);
 
     expect(hasMatches([])).toEqual(false);
