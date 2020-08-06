@@ -6,7 +6,6 @@ COPY ./src ./src
 RUN yarn build
 
 FROM node:12-alpine
-WORKDIR /app
-COPY --from=build-stage /app/dist .
-ENTRYPOINT ["node"]
-CMD ["index.js"]
+RUN apk add git
+COPY --from=build-stage /app/dist /app
+ENTRYPOINT node /app/index.js
