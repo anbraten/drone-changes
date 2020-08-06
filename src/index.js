@@ -6,12 +6,21 @@ async function init() {
   const after = process.env.DRONE_COMMIT_AFTER;
 
   let includes = process.env.PLUGIN_INCLUDES;
+  if (!includes) {
+    throw new Error('Please set "includes" settings for this plugin!');
+  }
+
   if (typeof includes === 'string') {
     includes = includes.split(',').map(i => i.trim());
   }
 
   let excludes = process.env.PLUGIN_EXCLUDES;
+  if (!excludes) {
+    throw new Error('Please set "excludes" settings for this plugin!');
+  }
+
   if (typeof excludes === 'string') {
+
     excludes = excludes.split(',').map(i => i.trim());
   }
 
@@ -37,5 +46,14 @@ async function init() {
   }
 }
 
+process.on('uncaughtException', err => {
+  console.error(`Uncaught Exception: ${err.message}`);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled rejection at ', promise, `reason: ${err.message}`);
+  process.exit(1);
+});
 
 init();
