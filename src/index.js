@@ -6,21 +6,16 @@ async function init() {
   const after = process.env.DRONE_COMMIT_AFTER;
 
   let includes = process.env.PLUGIN_INCLUDES;
-  if (!includes) {
-    throw new Error('Please set "includes" settings for this plugin!');
+  let excludes = process.env.PLUGIN_EXCLUDES;
+  if (!includes && !excludes) {
+    throw new Error('Please set at least "includes" or "excludes" settings for this plugin!');
   }
 
   if (typeof includes === 'string') {
     includes = includes.split(',').map(i => i.trim());
   }
 
-  let excludes = process.env.PLUGIN_EXCLUDES;
-  if (!excludes) {
-    throw new Error('Please set "excludes" settings for this plugin!');
-  }
-
   if (typeof excludes === 'string') {
-
     excludes = excludes.split(',').map(i => i.trim());
   }
 
