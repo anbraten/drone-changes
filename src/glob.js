@@ -9,13 +9,15 @@ function matchesFiles(files, includes) {
     return includes.reduce((matches, include) => removeDuplicates([...matches, ...matchesFiles(files, include)]), []);
   }
 
-  const match = minimatch.match(files, includes, { matchBase: false });
-  return match;
+  return minimatch.match(files, includes, { matchBase: false });
 }
 
-function ingoreFiles(files, _ignored) {
-  const ignored = _ignored.map(i => `!${i}`);
-  return matchesFiles(files, ignored);
+function ingoreFiles(files, excludes) {
+  if (Array.isArray(excludes)) {
+    return excludes.reduce((_files, exclude) => ingoreFiles(_files, exclude), files);
+  }
+
+  return minimatch.match(files, `!${excludes}`, { matchBase: false });
 }
 
 function hasMatches(matches) {

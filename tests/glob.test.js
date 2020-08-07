@@ -8,7 +8,7 @@ describe('Glob', () => {
     expect(removeDuplicates(arrayWithDuplicates).sort()).toEqual(arrayWithoutDuplicates.sort());
   });
 
-  test('it should remove duplicates string from an array', async () => {
+  test('it should test if function gets included files', async () => {
     const files = ['test/test.md', 'test/zug/README.md', 'README.md', 'animal/Cat.png', 'animal/dog.png'];
 
     const withMarkdown = ['test/test.md', 'test/zug/README.md', 'README.md'];
@@ -27,7 +27,7 @@ describe('Glob', () => {
     expect(matchesFiles(files, ['animal/*']).sort()).toEqual(withAnimals.sort());
   });
 
-  test('it should test if function removes ingnored files', async () => {
+  test('it should test if function removes excluded files', async () => {
     const files = ['test/test.md', 'test/zug/README.md', 'README.md', 'animal/Cat.png', 'animal/dog.png'];
 
     const withoutMarkdown = ['animal/Cat.png', 'animal/dog.png'];
@@ -44,6 +44,9 @@ describe('Glob', () => {
 
     const withoutAnimals = ['test/test.md', 'test/zug/README.md', 'README.md'];
     expect(ingoreFiles(files, ['animal/*']).sort()).toEqual(withoutAnimals.sort());
+
+    const withoutAll = [];
+    expect(ingoreFiles(files, files).sort()).toEqual([]);
   });
 
   test('it should check if array has matches or not', async () => {
