@@ -26,8 +26,7 @@ async function init() {
   console.log('includes', includes);
   console.log('excludes', excludes);
 
-  // const changedFiles = await getGitDiffFiles(before, after);
-  const changedFiles = ['README.md', 'test/horst.md'];
+  const changedFiles = await getGitDiffFiles(before, after);
   console.log('changed files', changedFiles);
 
   const nonIgnoredChangedFiles = excludes.length ? ingoreFiles(changedFiles, excludes) : changedFiles;
