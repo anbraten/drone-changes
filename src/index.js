@@ -4,6 +4,8 @@ const { ingoreFiles, matchesFiles, hasMatches } = require('./glob');
 async function init() {
   const before = process.env.DRONE_COMMIT_BEFORE;
   const after = process.env.DRONE_COMMIT_AFTER;
+  console.log('before', before);
+  console.log('after', after);
 
   let includes = process.env.PLUGIN_INCLUDES || '';
   let excludes = process.env.PLUGIN_EXCLUDES || '';
