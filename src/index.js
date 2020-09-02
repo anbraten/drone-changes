@@ -18,7 +18,7 @@ async function init() {
       }
       break;
     case 'pull_request':
-      before = process.env.DRONE_TARGET_BRANCH;
+      before = `refs/remotes/origin/${process.env.DRONE_TARGET_BRANCH}`;
       after = process.env.DRONE_COMMIT;
       break;
     default:
