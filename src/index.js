@@ -2,16 +2,33 @@ const { getGitDiffFiles } = require('./git-diff');
 const { ingoreFiles, matchesFiles, hasMatches } = require('./glob');
 
 async function init() {
-  const before = process.env.DRONE_COMMIT_BEFORE;
-  const after = process.env.DRONE_COMMIT_AFTER;
+  const event = process.env.DRONE_BUILD_EVENT;
+
+  let before;
+  let after;
+
+  switch (event) {
+    case 'push':
+      before = process.env.DRONE_COMMIT_BEFORE;
+      after = process.env.DRONE_COMMIT_AFTER;
+    
+      if (/^0+$/.test(before)) {
+        console.log('new branch => continue ci execution');
+        process.exit(0);
+      }
+      break;
+    case 'pull_request':
+      before = `refs/remotes/origin/${process.env.DRONE_TARGET_BRANCH}`;
+      after = process.env.DRONE_COMMIT;
+      break;
+    default:
+      console.log(`event ${event} not supported => continue ci execution`);
+      process.exit(0);
+  }
+
+  console.log('event', event);
   console.log('before', before);
   console.log('after', after);
-
-  if (/^0+$/.test(before)) {
-    console.log('new branch => continue ci execution');
-    process.exit(0);
-    return;
-  }
 
   let includes = process.env.PLUGIN_INCLUDES || '';
   let excludes = process.env.PLUGIN_EXCLUDES || '';
